@@ -55,15 +55,20 @@ namespace Class.Controller.MVCController
 
         public void SaveModel()
         {
+            if (MessageBox.Show("저장하시겠습니까 ?", "Save Button Click", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
             if(FilePathExamination() != true)
             {
-                MessageBox.Show("파일 경로를 입력해주세요.");
+                MessageBox.Show("파일 경로를 입력해주세요.", "Save Button Click");
                 return;
             }
 
             if (_view.nGrid.Rows.Count - 1 == 0)
             {
-                MessageBox.Show("가계부에 입력된 내용이 없습니다.");
+                MessageBox.Show("가계부에 입력된 내용이 없습니다.", "Save Button Click");
                 return;
             }
 
@@ -73,7 +78,7 @@ namespace Class.Controller.MVCController
                 bool Examination = DateExamination(_view.nGrid.Rows[i].Cells[0].Value.ToString());
                 if (Examination != true)
                 {
-                    MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.");
+                    MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.", "Save Button Click");
                     return;
                 }
 
@@ -88,7 +93,7 @@ namespace Class.Controller.MVCController
                     {
                         string str = ""; 
                         str += "[ " + Inspection[i] + " ] 날짜가 중복되었습니다.\n확인해주세요.";
-                        MessageBox.Show(str);
+                        MessageBox.Show(str, "Save Button Click");
                         return;
                     }
                 }
@@ -116,7 +121,7 @@ namespace Class.Controller.MVCController
 
             if (_view.nGrid.Rows.Count - 1 == 0)
             {
-                MessageBox.Show("가계부에 입력된 내용이 없습니다.");
+                MessageBox.Show("가계부에 입력된 내용이 없습니다.", "Detail Cell Click");
                 return;
             }
             
@@ -142,7 +147,7 @@ namespace Class.Controller.MVCController
                     Examination = DateExamination(strDetailsDate[0]);
                     if (Examination != true)
                     {
-                        MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.");
+                        MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.", "Detail Cell Click");
                         return;
                     }
                 } else {
@@ -151,7 +156,7 @@ namespace Class.Controller.MVCController
                     {
                         string str = "";
                         str += _view.nGrid.Columns[i].HeaderText + "에(의) " + strDetailsDate[i] + " 값은 숫자가 아닙니다.";
-                        MessageBox.Show(str);
+                        MessageBox.Show(str, "Detail Cell Click");
                         return;
                     }
                 }
@@ -274,7 +279,7 @@ namespace Class.Controller.MVCController
             }
             else
             {
-                MessageBox.Show("파일을 선택해주세요.");
+                MessageBox.Show("파일을 선택해주세요.", "File Open");
             }
         }
 

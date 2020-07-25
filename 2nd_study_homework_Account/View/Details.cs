@@ -100,6 +100,9 @@ namespace View.Details
         #region Button Event
         private void buttonSave_Click(object sender, EventArgs e)
         {
+            if (MessageBox.Show("저장하시겠습니까 ?", "Save Button Click", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
             _controller.DirectoryCreate(_model.DirectoryPath);
 
             _controller.FileClear(_model.FilePath);
