@@ -31,8 +31,6 @@ namespace Class.Controller.MVCController
         InterfaceView _view = null;
         Models _model = null;
 
-        private string strRowValue = "";
-
         public Controller(InterfaceView v, Models m)
         {
             _view = v;
@@ -58,7 +56,10 @@ namespace Class.Controller.MVCController
         public void SaveModel()
         {
             if(FilePathExamination() != true)
-                MessageBox.Show("파일 경로를 입력해주세요."); ;
+            {
+                MessageBox.Show("파일 경로를 입력해주세요.");
+                return;
+            }
 
             if (_view.nGrid.Rows.Count - 1 == 0)
             {
@@ -66,6 +67,7 @@ namespace Class.Controller.MVCController
                 return;
             }
 
+            string[] Inspection = new string[_view.nGrid.Rows.Count - 1];
             for (int i = 0; i< _view.nGrid.Rows.Count - 1; i++)
             {
                 bool Examination = DateExamination(_view.nGrid.Rows[i].Cells[0].Value.ToString());
@@ -74,17 +76,34 @@ namespace Class.Controller.MVCController
                     MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.");
                     return;
                 }
+
+                Inspection[i] = _view.nGrid.Rows[i].Cells[0].Value.ToString();
+            }
+
+            for (int i = 0; i < _view.nGrid.Rows.Count - 1; i++)
+            {
+                for (int j = i + 1; j < _view.nGrid.Rows.Count - 1; j++)
+                {
+                    if (Inspection[i] == _view.nGrid.Rows[j].Cells[0].Value.ToString())
+                    {
+                        string str = ""; 
+                        str += "[ " + Inspection[i] + " ] 날짜가 중복되었습니다.\n확인해주세요.";
+                        MessageBox.Show(str);
+                        return;
+                    }
+                }
             }
 
             FileClear(_view.FilePath);
 
             for (int i = 0; i < _view.nGrid.Rows.Count - 1; i++)
             {
+                string strRowValue = "";
                 for (int j = 0; j < _view.nGrid.Columns.Count - 1; j++)
                 {
                     strRowValue += _view.nGrid.Rows[i].Cells[j].Value + ",";
                 }
-                FileWrite(_view.FilePath, strRowValue);
+                FileWrite(_view.FilePath, ((strRowValue == ",") ? "0," : strRowValue));
             }
         }
 
@@ -100,20 +119,45 @@ namespace Class.Controller.MVCController
                 MessageBox.Show("가계부에 입력된 내용이 없습니다.");
                 return;
             }
-
-            bool Examination = DateExamination(_view.nGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
-
+            
+            bool Examination = false;
+            int returnValue = 0;
             int nCount = 0;
             string sp = ".txt";
-            string strDetailsDate = "";
+            string[] strDetailsDate = new string[3];
             string strDetailsFilePath = "";
             string strDetailsDirectoryPath = "";
             string strFileName = "";
             string strDate = "";
 
-            strDetailsDate += _view.nGrid.Rows[e.RowIndex].Cells[0].Value;
+            for (int i = 0; i < 3; i++)
+            {
+                strDetailsDate[i] = _view.nGrid.Rows[e.RowIndex].Cells[i].Value.ToString();
+                if (strDetailsDate[i] == "")
+                {
+                    strDetailsDate[i] = "0";
+                }
 
-            string[] strTargetDate = strDetailsDate.Split('/');
+                if (i == 0) {
+                    Examination = DateExamination(strDetailsDate[0]);
+                    if (Examination != true)
+                    {
+                        MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.");
+                        return;
+                    }
+                } else {
+                    Examination = int.TryParse(strDetailsDate[i], out returnValue);
+                    if (Examination != true)
+                    {
+                        string str = "";
+                        str += _view.nGrid.Columns[i].HeaderText + "에(의) " + strDetailsDate[i] + " 값은 숫자가 아닙니다.";
+                        MessageBox.Show(str);
+                        return;
+                    }
+                }
+            }
+
+            string[] strTargetDate = strDetailsDate[0].Split('/');
             foreach (string s in strTargetDate)
             {
                 strDate += s;
@@ -147,7 +191,9 @@ namespace Class.Controller.MVCController
 
             Details newForm = new Details();
 
-            _model.Date = strDetailsDate;
+            _model.Date = strDetailsDate[0];
+            _model.UseCash = strDetailsDate[1];
+            _model.SaveCash = strDetailsDate[2];
             _model.DirectoryPath = strDetailsDirectoryPath;
             _model.FilePath = strDetailsFilePath;
 
@@ -165,10 +211,13 @@ namespace Class.Controller.MVCController
                 return false;
 
             int nCount = 0;
+            int returnValue = 0;
+            string strcombine = "";
             string[] nDateSplit = nDate.Split('/');
 
             foreach (string s in nDateSplit)
             {
+                strcombine += s;
                 nCount++;
             }
 
@@ -182,6 +231,10 @@ namespace Class.Controller.MVCController
                 return false;
 
             if (nDateSplit[2].Length != 2)
+                return false;
+
+            bool Examination = int.TryParse(strcombine, out returnValue);
+            if (Examination != true)
                 return false;
 
             return true;

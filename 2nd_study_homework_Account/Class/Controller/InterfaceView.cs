@@ -13,6 +13,8 @@ namespace Class.Controller.MVCController
         void ClearList();
         
         string Date { get; set; }
+        string UseCash { get; set; }
+        string SaveCash { get; set; }
         string FilePath { get; set; }
         string DirectoryPath { get; set; }
 

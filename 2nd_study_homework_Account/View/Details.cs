@@ -30,6 +30,8 @@ namespace View.Details
             textBoxDetail.MaxLength = 255;
 
             textBoxDate.Text = _model.Date;
+            textBoxUseCash.Text = _model.UseCash;
+            textBoxSaveCash.Text = _model.SaveCash;
 
             _controller.FileTextBoxOutput(_model.FilePath, textBoxDetail);
         }
@@ -59,6 +61,18 @@ namespace View.Details
         {
             get { return textBoxDate.Text; }
             set { textBoxDate.Text = value; }
+        }
+        
+        public string UseCash
+        {
+            get { return textBoxUseCash.Text; }
+            set { textBoxUseCash.Text = value; }
+        }
+        
+        public string SaveCash
+        {
+            get { return textBoxSaveCash.Text; }
+            set { textBoxSaveCash.Text = value; }
         }
 
         private string _filepath;

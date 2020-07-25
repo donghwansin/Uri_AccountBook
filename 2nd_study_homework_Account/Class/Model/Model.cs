@@ -23,6 +23,20 @@ namespace Class.Model.MVCModel
             set { _date = value; }
         }
 
+        private string _usecash;
+        public string UseCash
+        {
+            get { return _usecash; }
+            set { _usecash = value; }
+        }
+
+        private string _savecash;
+        public string SaveCash
+        {
+            get { return _savecash; }
+            set { _savecash = value; }
+        }
+
         string _filepath;
         public string FilePath
         {
