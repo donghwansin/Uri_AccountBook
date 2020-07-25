@@ -53,6 +53,7 @@
             // 
             this.textBoxFilePath.Location = new System.Drawing.Point(88, 55);
             this.textBoxFilePath.Name = "textBoxFilePath";
+            this.textBoxFilePath.ReadOnly = true;
             this.textBoxFilePath.Size = new System.Drawing.Size(378, 21);
             this.textBoxFilePath.TabIndex = 1;
             this.textBoxFilePath.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.textBoxFilePath_MouseDoubleClick);

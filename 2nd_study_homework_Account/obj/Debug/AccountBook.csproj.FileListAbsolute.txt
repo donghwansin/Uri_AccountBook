@@ -9,3 +9,14 @@ C:\Users\신동환\Desktop\Study_Office\2nd_study_homework_Accountbook\2nd_study
 C:\Users\신동환\Desktop\Study_Office\2nd_study_homework_Accountbook\2nd_study_homework_Account\obj\Debug\2nd_study_homework_Account.exe
 C:\Users\신동환\Desktop\Study_Office\2nd_study_homework_Accountbook\2nd_study_homework_Account\obj\Debug\2nd_study_homework_Account.pdb
 C:\Users\신동환\Desktop\Study_Office\2nd_study_homework_Accountbook\2nd_study_homework_Account\obj\Debug\View.Details.Details.resources
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\bin\Debug\2nd_study_homework_Account.exe.config
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\bin\Debug\2nd_study_homework_Account.exe
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\bin\Debug\2nd_study_homework_Account.pdb
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\AccountBook.csprojAssemblyReference.cache
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\View.AccoutBook.AccountBook.resources
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\_2nd_study_homework_Account.Properties.Resources.resources
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\View.Details.Details.resources
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\AccountBook.csproj.GenerateResource.cache
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\AccountBook.csproj.CoreCompileInputs.cache
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\2nd_study_homework_Account.exe
+C:\Git\Uri_AccountBook\Uri_AccountBook\2nd_study_homework_Account\obj\Debug\2nd_study_homework_Account.pdb

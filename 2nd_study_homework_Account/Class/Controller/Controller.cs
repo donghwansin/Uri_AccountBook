@@ -57,12 +57,25 @@ namespace Class.Controller.MVCController
 
         public void SaveModel()
         {
+            if(FilePathExamination() != true)
+                MessageBox.Show("파일 경로를 입력해주세요."); ;
+
             if (_view.nGrid.Rows.Count - 1 == 0)
             {
                 MessageBox.Show("가계부에 입력된 내용이 없습니다.");
                 return;
             }
-            
+
+            for (int i = 0; i< _view.nGrid.Rows.Count - 1; i++)
+            {
+                bool Examination = DateExamination(_view.nGrid.Rows[i].Cells[0].Value.ToString());
+                if (Examination != true)
+                {
+                    MessageBox.Show("날짜를 잘못 입력하셨습니다.\nYYYY/MM/DD 형식으로 입력해주세요.");
+                    return;
+                }
+            }
+
             FileClear(_view.FilePath);
 
             for (int i = 0; i < _view.nGrid.Rows.Count - 1; i++)
@@ -87,6 +100,8 @@ namespace Class.Controller.MVCController
                 MessageBox.Show("가계부에 입력된 내용이 없습니다.");
                 return;
             }
+
+            bool Examination = DateExamination(_view.nGrid.Rows[e.RowIndex].Cells[0].Value.ToString());
 
             int nCount = 0;
             string sp = ".txt";
@@ -142,6 +157,44 @@ namespace Class.Controller.MVCController
             //newForm.Location = new Point(this.Location.X, this.Location.Y);
             newForm.Show();
         }
+
+        #region Function
+        private bool DateExamination(string nDate)
+        {
+            if (nDate.Length != 10)
+                return false;
+
+            int nCount = 0;
+            string[] nDateSplit = nDate.Split('/');
+
+            foreach (string s in nDateSplit)
+            {
+                nCount++;
+            }
+
+            if (nCount != 3)
+                return false;
+
+            if (nDateSplit[0].Length != 4)
+                return false;
+
+            if (nDateSplit[1].Length != 2)
+                return false;
+
+            if (nDateSplit[2].Length != 2)
+                return false;
+
+            return true;
+        }
+
+        private bool FilePathExamination()
+        {
+            if (_view.FilePath == "")
+                return false;
+
+            return true;
+        }
+        #endregion
 
         #region 파일 관련 함수
         public void FileWrite(string nFile, string ndata)
