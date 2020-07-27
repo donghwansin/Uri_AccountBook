@@ -41,7 +41,6 @@ namespace View.Details
             base.OnClosing(e);
         }
 
-        #region Interface
         public void SetController(Controller controller)
         {
             _controller = controller;
@@ -51,7 +50,7 @@ namespace View.Details
         {
             _model = model;
         }
-
+        #region Interface
         public void ClearList()
         {
             return;

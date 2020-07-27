@@ -32,7 +32,6 @@ namespace View.AccoutBook
             base.OnClosing(e);
         }
 
-        #region Interface
         public void SetController(Controller controller)
         {
             _controller = controller;
@@ -43,6 +42,7 @@ namespace View.AccoutBook
             _model = model;
         }
 
+        #region Interface
         public void ClearList()
         {
             dataGridView1.Rows.Clear();
