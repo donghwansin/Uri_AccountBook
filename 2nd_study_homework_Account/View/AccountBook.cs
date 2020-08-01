@@ -15,11 +15,15 @@ namespace View.AccoutBook
     public partial class AccountBook : Form, InterfaceView
     {
         Controller _controller;
-        Models _model;
 
         public AccountBook()
         {
             InitializeComponent();
+
+            Models model = new Models();
+            Controller controller = new Controller(this, model);
+
+            _controller = controller;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -30,16 +34,6 @@ namespace View.AccoutBook
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
-        }
-
-        public void SetController(Controller controller)
-        {
-            _controller = controller;
-        }
-
-        public void SetModel(Models model)
-        {
-            _model = model;
         }
 
         #region Interface

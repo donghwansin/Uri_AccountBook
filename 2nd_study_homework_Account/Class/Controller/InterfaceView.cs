@@ -7,9 +7,6 @@ namespace Class.Controller.MVCController
 {
     public interface InterfaceView
     {
-        void SetController(Controller controller);
-        void SetModel(Models model);
-
         void ClearList();
         
         string Date { get; set; }

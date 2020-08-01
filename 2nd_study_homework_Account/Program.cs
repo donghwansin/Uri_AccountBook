@@ -20,12 +20,12 @@ namespace _2nd_study_homework_Account
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new AccountBook());
+            Application.Run(new AccountBook());
             
-            Models model = new Models();
-            AccountBook view = new AccountBook();
-            Controller controller = new Controller(view, model);
-            Application.Run(view);
+            //Models model = new Models();
+            //AccountBook view = new AccountBook();
+            //Controller controller = new Controller(view, model);
+            //Application.Run(view);
         }
     }
 }

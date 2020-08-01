@@ -35,8 +35,6 @@ namespace Class.Controller.MVCController
         {
             _view = v;
             _model = m;
-            _view.SetController(this);
-            _view.SetModel(_model);
         }
         
         public void SaveFileSelect()
@@ -55,22 +53,7 @@ namespace Class.Controller.MVCController
 
         public void SaveModel()
         {
-            if (MessageBox.Show("저장하시겠습니까 ?", "Save Button Click", MessageBoxButtons.YesNo) == DialogResult.No)
-            {
-                return;
-            }
-
-            if(FilePathExamination() != true)
-            {
-                MessageBox.Show("파일 경로를 입력해주세요.", "Save Button Click");
-                return;
-            }
-
-            if (_view.nGrid.Rows.Count - 1 == 0)
-            {
-                MessageBox.Show("가계부에 입력된 내용이 없습니다.", "Save Button Click");
-                return;
-            }
+            SaveInterlock();
 
             string[] Inspection = new string[_view.nGrid.Rows.Count - 1];
             for (int i = 0; i< _view.nGrid.Rows.Count - 1; i++)
@@ -194,18 +177,14 @@ namespace Class.Controller.MVCController
                 }
             }
 
-            Details newForm = new Details();
+            Details newForm = new Details(this);
 
-            _model.Date = strDetailsDate[0];
-            _model.UseCash = strDetailsDate[1];
-            _model.SaveCash = strDetailsDate[2];
-            _model.DirectoryPath = strDetailsDirectoryPath;
-            _model.FilePath = strDetailsFilePath;
-
-            Controller controller = new Controller(newForm, _model);
-
-            //newForm.StartPosition = FormStartPosition.Manual;
-            //newForm.Location = new Point(this.Location.X, this.Location.Y);
+            newForm.Date = strDetailsDate[0];
+            newForm.UseCash = strDetailsDate[1];
+            newForm.SaveCash = strDetailsDate[2];
+            newForm.DirectoryPath = strDetailsDirectoryPath;
+            newForm.FilePath = strDetailsFilePath;
+            
             newForm.Show();
         }
 
@@ -251,6 +230,26 @@ namespace Class.Controller.MVCController
                 return false;
 
             return true;
+        }
+
+        private void SaveInterlock()
+        {
+            if (MessageBox.Show("저장하시겠습니까 ?", "Save Button Click", MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+
+            if (FilePathExamination() != true)
+            {
+                MessageBox.Show("파일 경로를 입력해주세요.", "Save Button Click");
+                return;
+            }
+
+            if (_view.nGrid.Rows.Count - 1 == 0)
+            {
+                MessageBox.Show("가계부에 입력된 내용이 없습니다.", "Save Button Click");
+                return;
+            }
         }
         #endregion
 

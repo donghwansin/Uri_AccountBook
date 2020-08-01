@@ -15,11 +15,12 @@ namespace View.Details
     public partial class Details : Form, InterfaceView
     {
         Controller _controller;
-        Models _model;
 
-        public Details()
+        public Details(Controller controller)
         {
             InitializeComponent();
+
+            _controller = controller;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -29,11 +30,7 @@ namespace View.Details
             textBoxDetail.Multiline = true;
             textBoxDetail.MaxLength = 255;
 
-            textBoxDate.Text = _model.Date;
-            textBoxUseCash.Text = _model.UseCash;
-            textBoxSaveCash.Text = _model.SaveCash;
-
-            _controller.FileTextBoxOutput(_model.FilePath, textBoxDetail);
+            _controller.FileTextBoxOutput(FilePath, textBoxDetail);
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -41,15 +38,6 @@ namespace View.Details
             base.OnClosing(e);
         }
 
-        public void SetController(Controller controller)
-        {
-            _controller = controller;
-        }
-
-        public void SetModel(Models model)
-        {
-            _model = model;
-        }
         #region Interface
         public void ClearList()
         {
@@ -102,10 +90,10 @@ namespace View.Details
             if (MessageBox.Show("저장하시겠습니까 ?", "Save Button Click", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            _controller.DirectoryCreate(_model.DirectoryPath);
+            _controller.DirectoryCreate(DirectoryPath);
 
-            _controller.FileClear(_model.FilePath);
-            _controller.FileWrite(_model.FilePath, textBoxDetail.Text);
+            _controller.FileClear(FilePath);
+            _controller.FileWrite(FilePath, textBoxDetail.Text);
         }
 
         private void buttonClose_Click(object sender, EventArgs e)
