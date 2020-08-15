@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 /// <summary>
 /// 날짜, 사용금액, 저축금액 정보를 get, set 가능해야한다.
 /// </summary>

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Class.Controller.MVCController;
+using System.IO;
 using Class.Model.MVCModel;
 
 namespace View.Details

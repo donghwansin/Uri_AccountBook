@@ -8,20 +8,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Class.Controller.MVCController;
+using System.IO;
 using Class.Model.MVCModel;
+using System.Threading;
 
 namespace View.AccoutBook
 {
     public partial class AccountBook : Form, InterfaceView
     {
         Controller _controller;
+        Thread _thread = null;
 
         public AccountBook()
         {
             InitializeComponent();
-
-            Models model = new Models();
-            Controller controller = new Controller(this, model);
+            
+            Controller controller = new Controller(this);
 
             _controller = controller;
         }
@@ -34,6 +36,7 @@ namespace View.AccoutBook
         protected override void OnClosing(CancelEventArgs e)
         {
             base.OnClosing(e);
+            _thread.Abort();
         }
 
         #region Interface
@@ -86,7 +89,10 @@ namespace View.AccoutBook
         #region Mouse Event
         private void textBoxFilePath_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            _controller.SaveFileSelect();
+            if (_controller.SaveFileSelect())
+            {
+                fThreadStart();
+            }
         }
         #endregion
 
@@ -108,5 +114,23 @@ namespace View.AccoutBook
             _controller.DetailCellClick(e);
         }
         #endregion
+
+        public void fThreadStart()
+        {
+            try
+            {
+                _thread = new Thread(ThreadProc);
+                _thread.Start();
+            }
+            catch (System.Threading.ThreadStateException)
+            {
+                _thread.Join();
+            }
+        }
+
+        public void ThreadProc()
+        {
+            _controller.ThreadFileCheck(this);
+        }
     }
 }

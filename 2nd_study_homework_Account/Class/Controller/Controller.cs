@@ -10,6 +10,7 @@ using System.Text;
 using Class.Model.MVCModel;
 using View.AccoutBook;
 using View.Details;
+using System.Threading;
 
 /// <summary>
 /// 컨트롤러에서는 뷰에 직접적으로 접근하지 않고, View interface에 접근합니다.
@@ -29,26 +30,41 @@ namespace Class.Controller.MVCController
     public class Controller
     {
         InterfaceView _view = null;
-        Models _model = null;
+        Models _model = new Models();
+        FileStream File1;
+        FileStream File2;
+        byte[] file1;
+        byte[] file2;
 
-        public Controller(InterfaceView v, Models m)
+        public Controller(InterfaceView v)
         {
             _view = v;
-            _model = m;
         }
         
-        public void SaveFileSelect()
+        public bool SaveFileSelect()
         {
             OpenFileDialog dialog = new OpenFileDialog();
 
             dialog.DefaultExt = "txt";
             dialog.Filter = "텍스트 문서 (*.txt) | *.txt";
-            dialog.ShowDialog();
-            _model.FilePath = dialog.FileName;
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                _model.FilePath = dialog.FileName;
 
-            _view.FilePath = _model.FilePath;
-            _view.ClearList();
-            FileGridOutput(_view.FilePath, _view.nGrid);
+                _view.FilePath = _model.FilePath;
+                _view.ClearList();
+                FileGridOutput(_view.FilePath, _view.nGrid);
+
+                File2 = new FileStream(_view.FilePath, FileMode.Open);
+                file2 = new byte[File2.Length];
+                File2.Read(file2, 0, file2.Length);
+                File2.Close();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void SaveModel()
@@ -161,8 +177,7 @@ namespace Class.Controller.MVCController
             {
                 strDetailsFilePath += nstrDetailsPath[i] + "\\";
             }
-
-
+            
             strFileName = nstrDetailsPath[nCount - 1].Substring(0, nstrDetailsPath[nCount - 1].IndexOf(sp));
 
             strDetailsDirectoryPath += strDetailsFilePath + strFileName;
@@ -250,6 +265,57 @@ namespace Class.Controller.MVCController
                 MessageBox.Show("가계부에 입력된 내용이 없습니다.", "Save Button Click");
                 return;
             }
+        }
+        #endregion
+
+        #region Thread
+        public void ThreadFileCheck(AccountBook f)
+        {
+            while (true)
+            {
+                if (f.InvokeRequired)
+                {
+                    f.Invoke(new Action(delegate ()
+                    {
+                        if (FileCompare(f))
+                        {
+                            _view.nGrid.Rows.Clear();
+                            FileGridOutput(_view.FilePath, _view.nGrid);
+
+                            File2 = new FileStream(f.FilePath, FileMode.Open);
+                            file2 = new byte[File2.Length];
+                            File2.Read(file2, 0, file2.Length);
+                            File2.Close();
+
+                            f.Refresh();
+                        }
+                    }));
+
+                    Thread.Sleep(300);
+                }
+            }
+        }
+
+        public bool FileCompare(AccountBook f)
+        {
+            File1 = new FileStream(_model.FilePath, FileMode.Open);
+            file1 = new byte[File1.Length];
+            File1.Read(file1, 0, file1.Length);
+            File1.Close();
+
+            if (file1.Length != file2.Length)
+            {
+                return true;
+            }
+
+            for (int a = 0; a < file2.Length; a++)
+            {
+                if (file1[a] != file2[a])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         #endregion
 
